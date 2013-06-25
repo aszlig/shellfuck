@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Copyright (c) 2006-2013 aszlig <aszlig@redmoonstudios.org
+# This work is free. You can redistribute it and/or modify it under the
+# terms of the Do What The Fuck You Want To Public License, Version 2,
+# as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
+
 # sorry, but because of read -n i had to introduce a bashism :-/
 DEBUG=1;
 
