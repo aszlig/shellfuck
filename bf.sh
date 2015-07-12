@@ -126,5 +126,4 @@ brainfuck()
 # i didn't want to include speedups (except these gained by using bashisms
 # :-/) because my intentions were that the dns server should work great, but
 # is too slow to deliver anything within the timeout *g*
-#brainfuck "$@";
-brainfuck "+++++++++++[>+++++++++++<-]>------.<+++[>---<-]>++.<++++[>---<-]>+.<+++++[>++++<-]>---.<++[>+<-]>.<++++[>---<-]>+.<+++[>---<-]>++.-.<+++++[>++++<-]>---.<++[>+<-]>.<++++[>----<-]>++.<+++[>--<-]>+.<+++++[>++++<-]>--.+.";
+brainfuck "$@";
