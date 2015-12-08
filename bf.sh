@@ -32,7 +32,8 @@ bf_manip()
         CHANGED=$4;
     else
         CHANGED=$(($(bf_get "$P_ARRAY" "$P_APOS") $P_ACTION 1));
-        [ $CHANGED -lt 0 ] && CHANGED=0;
+        [ $CHANGED -lt 0 ] && CHANGED=255;
+        [ $CHANGED -gt 255 ] && CHANGED=0;
     fi;
 
     iter=0;
@@ -89,7 +90,7 @@ brainfuck()
             \<) APOS=$(($APOS - 1));;
             \>) APOS=$(($APOS + 1));;
             +|-) ARRAY="$(bf_manip "$cmd" "$ARRAY" "$APOS")";;
-            ,) read -n 1 C_CHAR; ARRAY="$(bf_manip "*" "$ARRAY" "$APOS" "$(echo -n "$C_CHAR" | od -An -td1)")";;
+            ,) read -n 1 C_CHAR; ARRAY="$(bf_manip "*" "$ARRAY" "$APOS" "$(printf '   %d\n' "'$C_CHAR")")";;
             .) echo -n "$(bf_get "$ARRAY" "$APOS" | bf_d2a)";;
             \[) COLLECT=1;;
             \]) # special case: the LOOP, WOHOOO ;-)
