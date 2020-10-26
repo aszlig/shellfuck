@@ -21,12 +21,10 @@ bf_get()
     P_ARRAY="$1";
     P_APOS="$2";
 
-    iter=0;
-
-    printf '%s\n' "$1" |
+    printf '%s\n' "$P_ARRAY" |
     tr ' ' '\n' |
     grep . |
-    awk 'NR-1==$0{print $0;}';
+    awk "NR==$P_APOS+1{print \$0;}";
 }
 
 bf_manip()
@@ -39,17 +37,16 @@ bf_manip()
         (\*) CHANGED=$4;;
         (*)
             CHANGED=$(($(bf_get "$P_ARRAY" "$P_APOS") $P_ACTION 1));
-            [ $CHANGED -lt 0 ] && CHANGED=255;
-            [ $CHANGED -gt 255 ] && CHANGED=0;;
+            case $CHANGED in (-*) CHANGED=255;; esac;
+            case $CHANGED in (25[6-9]|2[6-9]?|[3-9]??|????*) CHANGED=0;; esac;
     esac;
 
-    iter=0;
-
-    for i in $P_ARRAY;
-    do
-        case $iter in ($P_APOS) printf "$CHANGED ";; (*) "$i ";; esac;
-        iter=$(($iter + 1));
-    done;
+    printf '%s\n' "$P_ARRAY" |
+    tr ' ' '\n' |
+    grep . |
+    awk -v changed="$CHANGED" -v apos="$P_APOS" '
+    BEGIN{OFS=ORS="";}
+    {if(NR-1==apos)print changed;else printf $0;}';
 }
 
 bf_fix()
@@ -98,8 +95,9 @@ brainfuck()
             (\[) COLLECT=1;;
             (\]) # special case: the LOOP, WOHOOO ;-)
                 case $COLLECT in (0) continue;; esac;
-                while [ "x$(bf_get "$ARRAY" "$APOS")" != "x0" ];
+                while :;
                 do
+                    case "$(bf_get "$ARRAY" "$APOS")" in (0) break;; esac;
                     ARRAY="$(brainfuck "$COLLECTION" l "$ARRAY" "$APOS")";
                     APOS=$?;
                 done;
