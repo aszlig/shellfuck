@@ -93,6 +93,7 @@ brainfuck()
             (+|-) ARRAY="$(bf_manip "$cmd" "$ARRAY" "$APOS")";;
             (,)
                 C_CHAR_N=$(dd bs=1 count=1 2>/dev/null | od -A n -t d1 -v | tr -Cd 0123456789);
+                case $C_CHAR_N in ('') C_CHAR_N=0;; esac;
                 ARRAY="$(bf_manip "*" "$ARRAY" "$APOS" "$C_CHAR_N")";;
             (.) printf %s "$(bf_get "$ARRAY" "$APOS" | bf_d2a)";;
             (\[) COLLECT=1;;
