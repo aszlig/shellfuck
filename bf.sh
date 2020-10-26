@@ -46,8 +46,8 @@ bf_manip()
     tr ' ' '\n' |
     grep . |
     awk -v changed="$CHANGED" -v apos="$P_APOS" '
-    BEGIN{OFS=ORS="";}
-    {if(NR-1==apos)print changed;else printf $0;}';
+    BEGIN{ORS=" ";}
+    {if(NR-1==apos)print changed;else print $0;}';
 }
 
 bf_fix()
