@@ -25,7 +25,7 @@ bf_get()
     printf '%s\n' "$P_ARRAY" |
     tr ' ' '\n' |
     grep . |
-    awk "NR==$P_APOS+1{print \$0;}";
+    sed -n "$(($P_APOS+1))p";
 }
 
 bf_manip()
