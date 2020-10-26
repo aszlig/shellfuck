@@ -11,8 +11,9 @@ isdbg(){
     case "$DEBUG" in
         ([yY]|[yY][eE][sS]) return 0;;
         (0) return 1;;
-        ([!0]*) return 0;;
-        (*) return 1;;
+        (*)
+        echo "$DEBUG" | grep -q '^-\{0,1\}[0-9]\{1,\}$';
+        return $?;;
     esac;
 }
 
