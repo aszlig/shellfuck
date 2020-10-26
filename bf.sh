@@ -66,9 +66,7 @@ bf_fix()
 
 bf_d2a()
 {
-    read DECI;
-
-    echo "$DECI" | awk '{ printf "%c", $0 }';
+    awk '{ printf "%c", $0 }';
 }
 
 brainfuck()
