@@ -25,6 +25,7 @@ bf_get()
 
     printf '%s\n' "$1" |
     tr ' ' '\n' |
+    grep . |
     awk 'NR-1==$0{print $0;}';
 }
 
