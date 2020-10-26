@@ -23,11 +23,9 @@ bf_get()
 
     iter=0;
 
-    for i in $P_ARRAY;
-    do
-        case $iter in ($P_APOS) echo "$i";; esac;
-        iter=$(($iter + 1));
-    done;
+    printf '%s\n' "$1" |
+    tr ' ' '\n' |
+    awk 'NR-1==$0{print $0;}';
 }
 
 bf_manip()
