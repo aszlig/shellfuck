@@ -92,7 +92,7 @@ brainfuck()
             (\>) APOS=$(($APOS + 1));;
             (+|-) ARRAY="$(bf_manip "$cmd" "$ARRAY" "$APOS")";;
             (,) read -n 1 C_CHAR; ARRAY="$(bf_manip "*" "$ARRAY" "$APOS" "$(printf '   %d\n' "'$C_CHAR")")";;
-            (.) printf "$(bf_get "$ARRAY" "$APOS" | bf_d2a)";;
+            (.) printf %s "$(bf_get "$ARRAY" "$APOS" | bf_d2a)";;
             (\[) COLLECT=1;;
             (\]) # special case: the LOOP, WOHOOO ;-)
                 case $COLLECT in (0) continue;; esac;
