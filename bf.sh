@@ -39,7 +39,7 @@ bf_manip()
         (*)
             CHANGED=$(($(bf_get "$P_ARRAY" "$P_APOS") $P_ACTION 1));
             case $CHANGED in (-*) CHANGED=255;; esac;
-            case $CHANGED in (25[6-9]|2[6-9]?|[3-9]??|????*) CHANGED=0;; esac;
+            case $CHANGED in (25[6-9]|2[6-9]?|[3-9]??|[1-9]???*) CHANGED=0;; esac;
     esac;
 
     printf '%s\n' "$P_ARRAY" |
