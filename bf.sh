@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #!/usr/bin/env bash
 # Copyright (c) 2006-2013 aszlig <aszlig@redmoonstudios.org
 # This work is free. You can redistribute it and/or modify it under the
