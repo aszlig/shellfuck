@@ -91,7 +91,9 @@ brainfuck()
             (\<) APOS=$(($APOS - 1));;
             (\>) APOS=$(($APOS + 1));;
             (+|-) ARRAY="$(bf_manip "$cmd" "$ARRAY" "$APOS")";;
-            (,) read -n 1 C_CHAR; ARRAY="$(bf_manip "*" "$ARRAY" "$APOS" "$(printf '   %d\n' "'$C_CHAR")")";;
+            (,)
+                C_CHAR_N=$(dd bs=1 count=1 2>/dev/null | od -A n -t d1 -v | tr -Cd 0123456789);
+                ARRAY="$(bf_manip "*" "$ARRAY" "$APOS" "$C_CHAR_N")";;
             (.) printf %s "$(bf_get "$ARRAY" "$APOS" | bf_d2a)";;
             (\[) COLLECT=1;;
             (\]) # special case: the LOOP, WOHOOO ;-)
@@ -130,4 +132,6 @@ brainfuck()
 # i didn't want to include speedups (except these gained by using bashisms
 # :-/) because my intentions were that the dns server should work great, but
 # is too slow to deliver anything within the timeout *g*
+
+trap 'dd of=/dev/null 2>/dev/null' EXIT HUP INT QUIT PIPE ALRM TERM
 brainfuck "$@";
