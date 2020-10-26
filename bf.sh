@@ -69,7 +69,7 @@ brainfuck()
 
     case "$INSIDE_LOOP" in
         ('')
-            [ "$DEBUG" -gt 0 ] && printf '\e[2J\e[2;0f';
+            [ "$DEBUG" -gt 0 ] && printf '\033[2J\033[2;0f';
             ARRAY="0";
             APOS=0;;
         (*)
@@ -100,13 +100,13 @@ brainfuck()
                 COLLECTION="";
                 COLLECT=0;
                 ;;
-            *) continue;; # ignore other chars
+            (*) continue;; # ignore other chars
         esac;
 
         [ $APOS -lt 0 ] && APOS=0;
 
         [ $DEBUG -gt 0 ] &&
-            printf "\e7\e[0;0f\e[1;31mcommand $cmd: $ARRAY ($APOS)\e[0m\e8" >&2;
+            printf '\033\067\033[0;0f\033[1;31mcommand '"$cmd: $ARRAY ($APOS)"'\033[0m\033\070' >&2;
 
         ARRAY="$(bf_fix "$ARRAY" "$APOS")";
     done;
