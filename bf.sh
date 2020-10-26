@@ -7,6 +7,15 @@
 # sorry, but because of read -n i had to introduce a bashism :-/
 DEBUG=1;
 
+isdbg(){
+    case "$DEBUG" in
+        ([yY]|[yY][eE][sS]) return 0;;
+        (0) return 1;;
+        ([!0]*) return 0;;
+        (*) return 1;;
+    esac;
+}
+
 bf_get()
 {
     P_ARRAY="$1";
@@ -69,7 +78,7 @@ brainfuck()
 
     case "$INSIDE_LOOP" in
         ('')
-            [ "$DEBUG" -gt 0 ] && printf '\033[2J\033[2;0f';
+            isdbg && printf '\033[2J\033[2;0f';
             ARRAY="0";
             APOS=0;;
         (*)
@@ -103,9 +112,9 @@ brainfuck()
             (*) continue;; # ignore other chars
         esac;
 
-        [ $APOS -lt 0 ] && APOS=0;
+        case $APOS in (-*) APOS=0;; esac;
 
-        [ $DEBUG -gt 0 ] &&
+        isdbg &&
             printf '\033\067\033[0;0f\033[1;31mcommand '"$cmd: $ARRAY ($APOS)"'\033[0m\033\070' >&2;
 
         ARRAY="$(bf_fix "$ARRAY" "$APOS")";
