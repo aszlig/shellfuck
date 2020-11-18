@@ -40,8 +40,14 @@ bf_manip()
         (\*) CHANGED=$4;;
         (*)
             CHANGED=$(($(bf_get "$P_ARRAY" "$P_APOS") $P_ACTION 1));
-            case $CHANGED in (-*) CHANGED=255;; esac;
-            case $CHANGED in (25[6-9]|2[6-9]?|[3-9]??|[1-9]???*) CHANGED=0;; esac;
+            case $CHANGED in (-*)
+                CHANGED=255;;
+                             (25[6-9]|
+                              2[6-9]?|
+                              [3-9]??|
+                              [1-9]???*)
+                CHANGED=0;;
+            esac;
     esac;
 
     printf '%s\n' "$P_ARRAY" |
@@ -94,7 +100,9 @@ brainfuck()
             (\>) APOS=$(($APOS + 1));;
             (+|-) ARRAY="$(bf_manip "$cmd" "$ARRAY" "$APOS")";;
             (,)
-                C_CHAR_N=$(dd bs=1 count=1 2>/dev/null | od -A n -t d1 -v | tr -Cd 0123456789);
+                C_CHAR_N=$(dd bs=1 count=1 2>/dev/null |
+                           od -A n -t u1 -v |
+                           tr -Cd 0123456789);
                 case $C_CHAR_N in ('') C_CHAR_N=0;; esac;
                 ARRAY="$(bf_manip "*" "$ARRAY" "$APOS" "$C_CHAR_N")";;
             (.) printf %s "$(bf_get "$ARRAY" "$APOS" | bf_d2a)";;
