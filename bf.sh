@@ -10,13 +10,7 @@
 DEBUG=1;
 
 isdbg(){
-    case "$DEBUG" in
-        ([yY]|[yY][eE][sS]) return 0;;
-        (0) return 1;;
-        (*)
-        echo "$DEBUG" | grep -q '^-\{0,1\}[0-9]\{1,\}$';
-        return $?;;
-    esac;
+    return "$(( DEBUG <= 0 ))";
 }
 
 bf_get()
@@ -36,18 +30,15 @@ bf_manip()
     P_ARRAY="$2";
     P_APOS="$3";
 
-    case "$P_ACTION" in
-        (\*) CHANGED=$4;;
-        (*)
-            CHANGED=$(($(bf_get "$P_ARRAY" "$P_APOS") $P_ACTION 1));
-            case $CHANGED in (-*)
-                CHANGED=255;;
-                             (25[6-9]|
-                              2[6-9]?|
-                              [3-9]??|
-                              [1-9]???*)
-                CHANGED=0;;
-            esac;
+    case "$P_ACTION" in (\*)
+        CHANGED=$4;
+    ;;(*)
+        CHANGED=$(($(bf_get "$P_ARRAY" "$P_APOS") $P_ACTION 1));
+        case $CHANGED in (-*)
+            CHANGED=255;
+        (25[6-9]|2[6-9]?|[3-9]??|[1-9]???*)
+            CHANGED=0;;
+        esac;
     esac;
 
     printf '%s\n' "$P_ARRAY" |
